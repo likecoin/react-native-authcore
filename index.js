@@ -1,5 +1,13 @@
-import { NativeModules } from 'react-native';
+import { NativeModules } from 'react-native'
 
-const { Authcore } = NativeModules;
+import WebAuth from './webauth'
 
-export default Authcore;
+const { Authcore: A0Authcore } = NativeModules
+
+
+export default class Authcore {
+  constructor(options = {}) {
+    this.authcore = A0Authcore
+    this.webAuth = new WebAuth()
+  }
+}
