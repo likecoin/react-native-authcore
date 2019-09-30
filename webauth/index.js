@@ -26,6 +26,7 @@ export default class WebAuth {
       const redirectUriiOS = `${bundleIdentifier}://authcore.dev`
       const redirectUriAndroid = `${bundleIdentifier}://authcore.dev`
       const redirectUri = Platform.OS === 'ios' ? redirectUriiOS : redirectUriAndroid
+      // TODO: Set to correct query string
       this.agent.show(`${this.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectUri}`, false).then(async (redirectUrl) => {
         if (!redirectUri) {
           throw new Error('redirectUri cannot be empty. Please provide the value')

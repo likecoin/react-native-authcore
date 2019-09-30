@@ -9,29 +9,38 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Button, Platform, StyleSheet, Text, View } from 'react-native';
 import Authcore from 'react-native-authcore';
 
 export default class App extends Component<{}> {
   state = {
     status: 'starting',
-    message: '--'
+    message: '--',
+    accessToken: '--'
   };
   componentDidMount() {
-    Authcore.sampleMethod('Testing', 123, (message) => {
+    const authcore = new Authcore({
+      baseUrl: 'http://localhost:8000'
+      // baseUrl: 'http://10.0.2.2:8000'
+    });
+    this.setState({ authcore: authcore });
+  }
+
+  _onLogin = () => {
+    this.state.authcore.webAuth.signin().then(accessToken => {
+      // Access token should be stored in keychain for security
       this.setState({
-        status: 'native callback received',
-        message
-      });
+        accessToken: accessToken
+      })
     });
   }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>☆Authcore example☆</Text>
-        <Text style={styles.instructions}>STATUS: {this.state.status}</Text>
-        <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
-        <Text style={styles.instructions}>{this.state.message}</Text>
+        <Button onPress = { this._onLogin } title={ 'Sign In' } />
+        <Text>{this.state.accessToken}</Text>
       </View>
     );
   }
@@ -48,10 +57,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });

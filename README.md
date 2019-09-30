@@ -35,9 +35,19 @@
 
 
 ## Usage
+
+Authcore module for React Native
 ```javascript
 import Authcore from 'react-native-authcore';
 
-// TODO: What to do with the module?
 Authcore;
 ```
+
+## Notes in current implementation
+
+* Using `fetch` API as `authcore-js` package requires `crypto` package, which does not have in native browser. This may change when `authcore-js` is packed
+* For local development using simulator, it is better to use the module requires `baseUrl` as
+  `http://localhost:8000`(for iOS)/`http://10.0.2.2:8000`(for Android) without SSL. This is due to using `fetch` package in native with SSL require signed certificate
+  
+## To be noted
+* iOS/Android additional information in using module

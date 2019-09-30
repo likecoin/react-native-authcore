@@ -6,12 +6,14 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "postinstall": "node ../scripts/examples_postinstall.js"
+    "postinstall": "node ../scripts/examples_postinstall.js",
+    "dev-start-ios": "yarn upgrade react-native-authcore && yarn postinstall && react-native run-ios",
+    "dev-start-android": "yarn upgrade react-native-authcore && yarn postinstall && react-native run-android"
   },
   "dependencies": {
     "react": "16.8.6",
     "react-native": "0.60.5",
-    "react-native-authcore": "file:../"
+    "react-native-authcore": "file:.."
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

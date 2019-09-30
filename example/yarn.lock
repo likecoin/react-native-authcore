@@ -935,9 +935,9 @@
     "@types/babel__traverse" "*"
 
 "@types/babel__generator@*":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@types/babel__generator/-/babel__generator-7.0.2.tgz#d2112a6b21fad600d7674274293c85dce0cb47fc"
-  integrity sha512-NHcOfab3Zw4q5sEE2COkpfXjoE7o+PmqD9DQW4koUT3roNxwziUdXGnRndMat/LJNUtePwn1TlP4do3uoe3KZQ==
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__generator/-/babel__generator-7.6.0.tgz#f1ec1c104d1bb463556ecb724018ab788d0c172a"
+  integrity sha512-c1mZUu4up5cp9KROs/QAw0gTeHrw/x7m52LcnvMxxOZ03DmLwPV0MlGmlgzV3cnSdjhJOZsj7E7FHeioai+egw==
   dependencies:
     "@babel/types" "^7.0.0"
 
@@ -997,9 +997,9 @@
   integrity sha512-gCubfBUZ6KxzoibJ+SCUc/57Ms1jz5NjHe4+dI2krNmU5zCPAphyLJYyTOg06ueIyfj+SaCUqmzun7ImlxDcKg==
 
 "@types/yargs@^13.0.0":
-  version "13.0.2"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-13.0.2.tgz#a64674fc0149574ecd90ba746e932b5a5f7b3653"
-  integrity sha512-lwwgizwk/bIIU+3ELORkyuOgDjCh7zuWDFqRtPPhhVgq9N1F7CvLNKg1TX4f2duwtKQ0p044Au9r1PLIXHrIzQ==
+  version "13.0.3"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-13.0.3.tgz#76482af3981d4412d65371a318f992d33464a380"
+  integrity sha512-K8/LfZq2duW33XW/tFwEAfnZlqIfVsoyRB3kfXdPXYhl0nfM8mmh7GS0jg7WrX2Dgq/0Ha/pR1PaR+BvmWwjiQ==
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -1042,9 +1042,9 @@
     semver "5.5.0"
 
 abab@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.1.tgz#3fa17797032b71410ec372e11668f4b4ffc86a82"
-  integrity sha512-1zSbbCuoIjafKZ3mblY5ikvAb0ODUbqBnFuUb7f6uLeQhhGJ0vEV4ntmtxKLT2WgXCO94E07BjunsIw1jOMPZw==
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.2.tgz#a2fba1b122c69a85caa02d10f9270c7219709a9d"
+  integrity sha512-2scffjvioEmNz0OyDSLGWDfKCVwaKc6l9Pm9kOIREU13ClXZvHpg/nRL5xyjSSSLhOnXqft2HpsAzNEEA8cFFg==
 
 abbrev@1:
   version "1.1.1"
@@ -1631,9 +1631,9 @@ chardet@^0.7.0:
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
 chownr@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.2.tgz#a18f1e0b269c8a6a5d3c86eb298beb14c3dd7bf6"
-  integrity sha512-GkfeAQh+QNy3wquu9oIZr6SS5x7wGdSgNQvD10X3r+AZr1Oys22HW8kAmDMvNg2+Dm0TeGaEuO8gFwdBXxwO8A==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.3.tgz#42d837d5239688d55f303003a508230fa6727142"
+  integrity sha512-i70fVHhmV3DtTl6nqvZOnIjbY0Pe4kAUjwHj8z0zAdgBtYrJyYwLKCCuRBQ5ppkyL0AkN7HKRnETdmdp1zqNXw==
 
 ci-info@^2.0.0:
   version "2.0.0"
@@ -2094,9 +2094,9 @@ encoding@^0.1.11:
     iconv-lite "~0.4.13"
 
 end-of-stream@^1.1.0:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.2.tgz#080bf028edce8312b665ff18ea03cae0c3ac0ecb"
-  integrity sha512-gUSUszrsxlDnUbUwEI9Oygyrk4ZEWtVaHQc+uZHphVeNxl+qeqMV/jDWoTkjN1RmGlZ5QWAP7o458p/JMlikQg==
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.4.tgz#5ae64a5f45057baf3626ec14da0ca5e4b2431eb0"
+  integrity sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
   dependencies:
     once "^1.4.0"
 
@@ -2821,9 +2821,9 @@ growly@^1.3.0:
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
 handlebars@^4.1.2:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.3.0.tgz#427391b584626c9c9c6ffb7d1fb90aa9789221cc"
-  integrity sha512-7XlnO8yBXOdi7AzowjZssQr47Ctidqm7GbgARapOaqSN9HQhlClnOkR9HieGauIT3A8MBC6u9wPCXs97PCYpWg==
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.3.1.tgz#6febc1890851f62a8932d495cc88d29390fa850d"
+  integrity sha512-c0HoNHzDiHpBt4Kqe99N8tdLPKAnGCQ73gYMPWtAYM4PwGnf7xl8PBUHJqh9ijlzt2uQKaSRxbXRt+rZ7M2/kA==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"
@@ -4415,10 +4415,10 @@ minimist@~0.0.1:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
   integrity sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8=
 
-minipass@^2.2.1, minipass@^2.6.0, minipass@^2.6.4:
-  version "2.8.5"
-  resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.8.5.tgz#072f3c67b1f05fe4703f58a3c38e186c03a17692"
-  integrity sha512-D5+szmZBoOAfbLjOXY4Ve5bWylyTdrUOmbJPgYmgTF5ovCnCFFTY+I16Ccm/UjSNNAekXtIEDvoCDioFzRz18Q==
+minipass@^2.2.1, minipass@^2.6.0, minipass@^2.8.6:
+  version "2.8.6"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.8.6.tgz#620d889ace26356391d010ecb9458749df9b6db5"
+  integrity sha512-lFG7d6g3+/UaFDCOtqPiKAC9zngWWsQZl1g5q6gaONqrjq61SX2xFqXMleQiFVyDpYwa018E9hmlAFY22PCb+A==
   dependencies:
     safe-buffer "^5.1.2"
     yallist "^3.0.0"
@@ -5116,6 +5116,11 @@ pump@^3.0.0:
     end-of-stream "^1.1.0"
     once "^1.3.1"
 
+punycode@1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
+  integrity sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=
+
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
@@ -5130,6 +5135,11 @@ qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+
+querystring@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
+  integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
 range-parser@~1.2.1:
   version "1.2.1"
@@ -5164,8 +5174,10 @@ react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
   integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
 
-"react-native-authcore@file:../":
+"react-native-authcore@file:..":
   version "1.0.0"
+  dependencies:
+    url "^0.11.0"
 
 react-native@0.60.5:
   version "0.60.5"
@@ -6025,13 +6037,13 @@ table@^5.2.3:
     string-width "^3.0.0"
 
 tar@^4:
-  version "4.4.11"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.11.tgz#7ac09801445a3cf74445ed27499136b5240ffb73"
-  integrity sha512-iI4zh3ktLJKaDNZKZc+fUONiQrSn9HkCFzamtb7k8FFmVilHVob7QsLX/VySAW8lAviMzMbFw4QtFb4errwgYA==
+  version "4.4.13"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525"
+  integrity sha512-w2VwSrBoHa5BsSyH+KxEqeQBAllHhccyMFVHtGtdMpF4W7IRWfZjFiQceJPChOeTsSDVUpER2T8FA93pr0L+QA==
   dependencies:
     chownr "^1.1.1"
     fs-minipass "^1.2.5"
-    minipass "^2.6.4"
+    minipass "^2.8.6"
     minizlib "^1.2.1"
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
@@ -6287,6 +6299,14 @@ urix@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/urix/-/urix-0.1.0.tgz#da937f7a62e21fec1fd18d49b35c2935067a6c72"
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
+
+url@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
+  integrity sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=
+  dependencies:
+    punycode "1.3.2"
+    querystring "0.2.0"
 
 use@^3.1.0:
   version "3.1.1"
