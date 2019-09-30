@@ -14,15 +14,12 @@ export default class Agent {
 
     return new Promise((resolve, reject) => {
       const urlHandler = event => {
-        console.log(event)
         Authcore.hide()
         Linking.removeEventListener('url', urlHandler)
         resolve(event.url)
       }
       Linking.addEventListener('url', urlHandler)
       Authcore.showUrl(url, closeOnLoad, (error, redirectURL) => {
-        console.log(error)
-        console.log(redirectURL)
         Linking.removeEventListener('url', urlHandler)
         if (error) {
           reject(error)

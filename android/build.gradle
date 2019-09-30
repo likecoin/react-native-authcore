@@ -58,11 +58,14 @@ repositories {
     jcenter()
 }
 
+def supportVersion = rootProject.hasProperty('supportLibVersion') ? rootProject.supportLibVersion : DEFAULT_SUPPORT_LIB_VERSION
+
 dependencies {
     // ref:
     // https://github.com/facebook/react-native/blob/0.61-stable/template/android/app/build.gradle#L192
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation "com.android.support:customtabs:${supportVersion}"
 }
 
 def configureReactNativePom(def pom) {
