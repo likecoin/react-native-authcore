@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native'
+import { NativeModules } from 'react-native'
 import url from 'url'
 
 import Agent from './agent'
@@ -9,7 +9,7 @@ const { Authcore } = NativeModules
 const bundleIdentifier = Authcore.bundleIdentifier
 
 export default class WebAuth {
-  constructor(baseUrl) {
+  constructor (baseUrl) {
     if (!baseUrl) {
       throw new Error('baseUrl cannot be empty. Please provide the value')
     }
@@ -20,22 +20,21 @@ export default class WebAuth {
     })
   }
 
-  async signin(options = {}) {
+  async signin (options = {}) {
     return new Promise((resolve, reject) => {
+      // Using baseUrl as the redirect URI
       // TODO: Not to fix the redirect URI
-      const redirectUriiOS = `${bundleIdentifier}://authcore.dev`
-      const redirectUriAndroid = `${bundleIdentifier}://authcore.dev`
-      const redirectUri = Platform.OS === 'ios' ? redirectUriiOS : redirectUriAndroid
+      const redirectUri = `${bundleIdentifier}://${this.baseUrl}`
       // TODO: Set to correct query string
       this.agent.show(`${this.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectUri}`, false).then(async (redirectUrl) => {
         if (!redirectUri) {
           throw new Error('redirectUri cannot be empty. Please provide the value')
         }
         const query = url.parse(redirectUrl, true).query
-        const { code, state } = query
+        const { code } = query
         this.client.post('/api/auth/tokens', {
-          'grant_type': 'AUTHORIZATION_TOKEN',
-          'token': code
+          grant_type: 'AUTHORIZATION_TOKEN',
+          token: code
         })
           .then((response) => {
             resolve(response.json.access_token)
