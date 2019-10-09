@@ -1,9 +1,9 @@
 import { NativeModules, Linking } from 'react-native'
 
-const { Authcore } = NativeModules;
+const { Authcore } = NativeModules
 
 export default class Agent {
-  show(url, closeOnLoad = false) {
+  show (url, closeOnLoad = false) {
     if (!Authcore) {
       return Promise.reject(
         new Error(
@@ -23,9 +23,9 @@ export default class Agent {
         Linking.removeEventListener('url', urlHandler)
         if (error) {
           reject(error)
-        } else if(redirectURL) {
+        } else if (redirectURL) {
           resolve(redirectURL)
-        } else if(closeOnLoad) {
+        } else if (closeOnLoad) {
           resolve()
         }
       })
