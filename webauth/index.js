@@ -22,9 +22,8 @@ export default class WebAuth {
 
   async signin (options = {}) {
     return new Promise((resolve, reject) => {
-      // Using baseUrl as the redirect URI
       // TODO: Not to fix the redirect URI
-      const redirectUri = `${bundleIdentifier}://${this.baseUrl}`
+      const redirectUri = `${bundleIdentifier}://`
       // TODO: Set to correct query string
       this.agent.show(`${this.baseUrl}/widgets/oauth?client_id=authcore.io&response_type=code&redirect_uri=${redirectUri}`, false).then(async (redirectUrl) => {
         if (!redirectUri) {

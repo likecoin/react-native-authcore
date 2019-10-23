@@ -25,7 +25,7 @@
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
           <data
-              android:host="authcore.dev"
+              android:host=""
               android:scheme="${applicationId}" />
         </intent-filter>
       </activity>
