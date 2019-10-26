@@ -29,6 +29,13 @@ export default class Client {
     let endpoint = url.resolve(this.baseUrl, path)
     if ((query && query.length !== 0)) {
       const parsed = url.parse(endpoint)
+      // Remove undefined key-value pair
+      const keysArr = Object.keys(query)
+      for (let i = 0; i < keysArr.length; i++) {
+        if (query[keysArr[i]] === undefined) {
+          delete query[keysArr[i]]
+        }
+      }
       parsed.query = query || {}
       endpoint = url.format(parsed)
     }

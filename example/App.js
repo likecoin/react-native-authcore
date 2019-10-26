@@ -8,54 +8,19 @@
  * https://github.com/facebook/react-native
  */
 
-import React, { Component } from 'react';
-import { Button, Platform, StyleSheet, Text, View } from 'react-native';
-import Authcore from 'react-native-authcore';
+import React from 'react';
 
-export default class App extends Component {
-  state = {
-    status: 'starting',
-    message: '--',
-    accessToken: '--'
-  };
-  componentDidMount() {
-    const authcore = new Authcore({
-      baseUrl: 'http://localhost:8000'
-      // baseUrl: 'http://10.0.2.2:8000'
-    });
-    this.setState({ authcore: authcore });
-  }
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-  _onLogin = () => {
-    this.state.authcore.webAuth.signin().then(accessToken => {
-      // Access token should be stored in keychain for security
-      this.setState({
-        accessToken: accessToken
-      })
-    });
-  }
+import HomeScreen from './src/HomeScreen'
+import ProfileScreen from './src/ProfileScreen'
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>☆Authcore example☆</Text>
-        <Button onPress = { this._onLogin } title={ 'Sign In' } />
-        <Text>{this.state.accessToken}</Text>
-      </View>
-    );
-  }
-}
+const MainNavigator = createStackNavigator({
+  Home: {screen: HomeScreen},
+  ProfileScreen: {screen: ProfileScreen},
+})
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
+const App = createAppContainer(MainNavigator)
+
+export default App
