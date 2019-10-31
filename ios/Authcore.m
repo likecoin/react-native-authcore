@@ -14,6 +14,14 @@
 #define ERROR_CANCELLED @{@"error": @"authcore.session.user_cancelled",@"error_description": @"User cancelled the Auth"}
 #define ERROR_FAILED_TO_LOAD @{@"error": @"authcore.session.failed_load",@"error_description": @"Failed to load url"}
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+@interface Authcore () <SFSafariViewControllerDelegate, ASWebAuthenticationPresentationContextProviding>
+@end
+#else
+@interface Authcore () <SFSafariViewControllerDelegate>
+@end
+
+#endif
 @interface Authcore () <SFSafariViewControllerDelegate>
 @property (weak, nonatomic) SFSafariViewController *last;
 @property (strong, nonatomic) NSObject *authenticationSession;
@@ -67,26 +75,26 @@ RCT_EXPORT_METHOD(showUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad ca
     NSArray *queryItems = urlComponents.queryItems;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name=%@", @"redirect_uri"];
     NSURLQueryItem *queryItem = [[queryItems
-                                     filteredArrayUsingPredicate:predicate]
-                                    firstObject];
+                                  filteredArrayUsingPredicate:predicate]
+                                 firstObject];
     NSString *callbackURLScheme = queryItem.value;
     RCTResponseSenderBlock callback = self.sessionCallback ? self.sessionCallback : ^void(NSArray *_unused) {};
 
     if (@available(iOS 12.0, *)) {
         ASWebAuthenticationSession* authenticationSession = [[ASWebAuthenticationSession alloc]
-                                                                initWithURL:url callbackURLScheme:callbackURLScheme
-                                                                completionHandler:^(NSURL * _Nullable callbackURL,
-                                                                                    NSError * _Nullable error) {
-                if ([[error domain] isEqualToString:ASWebAuthenticationSessionErrorDomain] &&
-                    [error code] == ASWebAuthenticationSessionErrorCodeCanceledLogin) {
-                    callback(@[ERROR_CANCELLED, [NSNull null]]);
-                } else if(error) {
-                    callback(@[error, [NSNull null]]);
-                } else if(callbackURL) {
-                    callback(@[[NSNull null], callbackURL.absoluteString]);
-                }
-                self.authenticationSession = nil;
-            }];
+                                                             initWithURL:url callbackURLScheme:callbackURLScheme
+                                                             completionHandler:^(NSURL * _Nullable callbackURL,
+                                                                                 NSError * _Nullable error) {
+            if ([[error domain] isEqualToString:ASWebAuthenticationSessionErrorDomain] &&
+                [error code] == ASWebAuthenticationSessionErrorCodeCanceledLogin) {
+                callback(@[ERROR_CANCELLED, [NSNull null]]);
+            } else if(error) {
+                callback(@[error, [NSNull null]]);
+            } else if(callbackURL) {
+                callback(@[[NSNull null], callbackURL.absoluteString]);
+            }
+            self.authenticationSession = nil;
+        }];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
         if (@available(iOS 13.0, *)) {
             authenticationSession.presentationContextProvider = self;
@@ -96,19 +104,19 @@ RCT_EXPORT_METHOD(showUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad ca
         [(ASWebAuthenticationSession*) self.authenticationSession start];
     } else if (@available(iOS 11.0, *)) {
         self.authenticationSession = [[SFAuthenticationSession alloc]
-                                         initWithURL:url callbackURLScheme:callbackURLScheme
-                                         completionHandler:^(NSURL * _Nullable callbackURL,
-                                                             NSError * _Nullable error) {
-                if ([[error domain] isEqualToString:SFAuthenticationErrorDomain] &&
-                    [error code] == SFAuthenticationErrorCanceledLogin) {
-                    callback(@[ERROR_CANCELLED, [NSNull null]]);
-                } else if(error) {
-                    callback(@[error, [NSNull null]]);
-                } else if(callbackURL) {
-                    callback(@[[NSNull null], callbackURL.absoluteString]);
-                }
-                self.authenticationSession = nil;
-            }];
+                                      initWithURL:url callbackURLScheme:callbackURLScheme
+                                      completionHandler:^(NSURL * _Nullable callbackURL,
+                                                          NSError * _Nullable error) {
+            if ([[error domain] isEqualToString:SFAuthenticationErrorDomain] &&
+                [error code] == SFAuthenticationErrorCanceledLogin) {
+                callback(@[ERROR_CANCELLED, [NSNull null]]);
+            } else if(error) {
+                callback(@[error, [NSNull null]]);
+            } else if(callbackURL) {
+                callback(@[[NSNull null], callbackURL.absoluteString]);
+            }
+            self.authenticationSession = nil;
+        }];
         [(SFAuthenticationSession*) self.authenticationSession start];
     }
 }
@@ -118,10 +126,10 @@ RCT_EXPORT_METHOD(showUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad ca
     if (dismissing) {
         [self.last.presentingViewController dismissViewControllerAnimated:animated
                                                                completion:^{
-                if (error) {
-                    callback(@[error, [NSNull null]]);
-                }
-            }];
+            if (error) {
+                callback(@[error, [NSNull null]]);
+            }
+        }];
     } else if (error) {
         callback(@[error, [NSNull null]]);
     }
@@ -160,5 +168,13 @@ RCT_EXPORT_METHOD(showUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad ca
         return rootViewController;
     }
 }
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#pragma mark - ASWebAuthenticationPresentationContextProviding
+
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13.0)){
+    return [UIApplication sharedApplication].keyWindow;
+}
+#endif
 
 @end
