@@ -1,8 +1,9 @@
 import { NativeModules } from 'react-native'
 
-import WebAuth from './webauth'
+import Auth from './src/auth'
+import WebAuth from './src/webauth'
 
-import { ProfileScreen, SettingsScreen } from './screensComponents/index'
+import { ProfileScreen, SettingsScreen } from './src/screensComponents/index'
 
 const { Authcore: A0Authcore } = NativeModules
 
@@ -10,7 +11,10 @@ export default class Authcore {
   constructor (options = {}) {
     const { baseUrl } = options
     this.authcore = A0Authcore
-    this.webAuth = new WebAuth(baseUrl)
+    this.auth = new Auth({
+      baseUrl: baseUrl
+    })
+    this.webAuth = new WebAuth(this.auth)
     ProfileScreen.defaultProps = {
       baseUrl: baseUrl,
       accessToken: undefined

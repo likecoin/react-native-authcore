@@ -17,6 +17,10 @@ export default class Client {
     }
   }
 
+  get (path, query) {
+    return this.request('GET', this.url(path, query))
+  }
+
   post (path, body) {
     return this.request('POST', this.url(path), body)
   }
