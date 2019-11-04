@@ -22,10 +22,10 @@ export default class App extends Component {
   }
 
   _onLogin = () => {
-    this.state.authcore.webAuth.signin().then(accessToken => {
+    this.state.authcore.webAuth.signin().then(data => {
       // Access token should be stored in keychain for security
       this.setState({
-        accessToken: accessToken
+        accessToken: data.accessToken
       })
     });
   }
