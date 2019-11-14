@@ -2,6 +2,7 @@ import { NativeModules } from 'react-native'
 import url from 'url'
 
 import Agent from './agent'
+import { apply } from '../utils/whitelist'
 
 const { Authcore } = NativeModules
 
@@ -19,39 +20,65 @@ export default class WebAuth {
 
   signin (options = {}) {
     return new Promise((resolve, reject) => {
-      // TODO: Not to fix the redirect URI
-      const redirectUri = `${bundleIdentifier}://`
-      // TODO: Set to correct query string
-      const authorizeUrl = this.client.url('/widgets/oauth', {
-        client_id: 'authcore.io',
-        response_type: 'code',
-        redirect_uri: redirectUri
-      })
-      this.agent.show(authorizeUrl, false).then((redirectUrl) => {
-        if (!redirectUri) {
-          throw new Error('redirectUri cannot be empty. Please provide the value')
-        }
-        const query = url.parse(redirectUrl, true).query
-        const { code } = query
-        this.client.post('/api/auth/tokens', {
-          grant_type: 'AUTHORIZATION_TOKEN',
-          token: code
+      this.agent.newTransaction().then(({ state, verifier, ...defaults }) => {
+        // return new Promise((resolve, reject) => {
+        // TODO: Not to fix the redirect URI
+        const redirectUri = `${bundleIdentifier}://`
+        const expectedState = state
+        const payloadForAuthorizeUrl = apply({
+          parameters: {
+            redirectUri: { required: true, toName: 'redirect_uri' },
+            responseType: { required: true, toName: 'response_type' },
+            state: { required: true }
+          },
+          whitelist: false
+        }, {
+          ...defaults,
+          client_id: 'authcore.io',
+          response_type: 'code',
+          redirect_uri: redirectUri,
+          state: expectedState
         })
-          .then(async (response) => {
-            const currentUser = await this.auth.userInfo({
-              token: response.json.access_token
-            })
-            const resp = {
-              accessToken: response.json.access_token,
-              refreshToken: response.json.refresh_token,
-              idToken: response.json.id_token,
-              currentUser: currentUser
+        const authorizeUrl = this.client.url('/widgets/oauth', payloadForAuthorizeUrl)
+        this.agent.show(authorizeUrl, false).then((redirectUrl) => {
+          if (!redirectUri) {
+            throw new Error('redirectUri cannot be empty. Please provide the value')
+          }
+          const query = url.parse(redirectUrl, true).query
+          const { code, state: resultState } = query
+          const payloadForTokens = apply({
+            parameters: {
+              token: { required: true },
+              verifier: { required: true, toName: 'code_verifier' }
             }
-            resolve(resp)
+          }, {
+            token: code,
+            verifier: verifier
           })
-          .catch((err) => {
-            reject(err)
+          if (expectedState !== resultState) {
+            throw new Error('Invalid state')
+          }
+          // Exchange to get tokens
+          this.client.post('/api/auth/tokens', {
+            ...payloadForTokens,
+            grant_type: 'AUTHORIZATION_TOKEN'
           })
+            .then(async (response) => {
+              const currentUser = await this.auth.userInfo({
+                token: response.json.access_token
+              })
+              const resp = {
+                accessToken: response.json.access_token,
+                refreshToken: response.json.refresh_token,
+                idToken: response.json.id_token,
+                currentUser: currentUser
+              }
+              resolve(resp)
+            })
+            .catch((err) => {
+              reject(err)
+            })
+        })
       })
     })
   }

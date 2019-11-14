@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
+import androidx.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
+import android.util.Base64;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -14,11 +16,16 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AuthcoreModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
-
+    private static final String US_ASCII = "US-ASCII";
+    private static final String SHA_256 = "SHA-256";
     private static final int CANCEL_EVENT_DELAY = 100;
 
     private final ReactApplicationContext reactContext;
@@ -42,6 +49,17 @@ public class AuthcoreModule extends ReactContextBaseJavaModule implements Lifecy
     }
 
     @ReactMethod
+    public void oauthParameters(Callback callback) {
+        final String verifier = this.generateRandomValue();
+        final WritableMap parameters = Arguments.createMap();
+        parameters.putString("verifier", verifier);
+        parameters.putString("code_challenge", this.generateCodeChallenge(verifier));
+        parameters.putString("code_challenge_method", "S256");
+        parameters.putString("state", this.generateRandomValue());
+        callback.invoke(parameters);
+    }
+
+    @ReactMethod
     public void hide() {}
 
     @ReactMethod
@@ -59,6 +77,45 @@ public class AuthcoreModule extends ReactContextBaseJavaModule implements Lifecy
             intent.setData(Uri.parse(url));
             getReactApplicationContext().startActivity(intent);
         }
+    }
+
+        private String getBase64String(byte[] source) {
+        return Base64.encodeToString(source, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
+    }
+
+    byte[] getASCIIBytes(String value) {
+        byte[] input;
+        try {
+            input = value.getBytes(US_ASCII);
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException("Could not convert string to an ASCII byte array", e);
+        }
+        return input;
+    }
+
+    byte[] getSHA256(byte[] input) {
+        byte[] signature;
+        try {
+            MessageDigest md = MessageDigest.getInstance(SHA_256);
+            md.update(input, 0, input.length);
+            signature = md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("Failed to get SHA-256 signature", e);
+        }
+        return signature;
+    }
+
+    String generateRandomValue() {
+        SecureRandom sr = new SecureRandom();
+        byte[] code = new byte[32];
+        sr.nextBytes(code);
+        return this.getBase64String(code);
+    }
+
+    String generateCodeChallenge(@NonNull String codeVerifier) {
+        byte[] input = getASCIIBytes(codeVerifier);
+        byte[] signature = getSHA256(input);
+        return getBase64String(signature);
     }
 
     @Override
