@@ -7,7 +7,7 @@ export default class Agent {
     if (!Authcore) {
       return Promise.reject(
         new Error(
-          'Missing NativeModule. Please make sure you run `react-native link react-native-authcore`'
+          'Missing NativeModule. React Native versions 0.60 and up perform auto-linking. Please see https://github.com/react-native-community/cli/blob/master/docs/autolinking.md.'
         )
       )
     }
@@ -28,6 +28,22 @@ export default class Agent {
         } else if (closeOnLoad) {
           resolve()
         }
+      })
+    })
+  }
+
+  newTransaction () {
+    if (!Authcore) {
+      return Promise.reject(
+        new Error(
+          'Missing NativeModule. React Native versions 0.60 and up perform auto-linking. Please see https://github.com/react-native-community/cli/blob/master/docs/autolinking.md.'
+        )
+      )
+    }
+
+    return new Promise((resolve, reject) => {
+      Authcore.oauthParameters(parameters => {
+        resolve(parameters)
       })
     })
   }
