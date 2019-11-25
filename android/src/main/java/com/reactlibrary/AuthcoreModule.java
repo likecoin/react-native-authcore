@@ -34,6 +34,7 @@ public class AuthcoreModule extends ReactContextBaseJavaModule implements Lifecy
     public AuthcoreModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        this.reactContext.addLifecycleEventListener(this);
     }
 
     @Override
