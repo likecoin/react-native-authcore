@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "postinstall": "node ../scripts/examples_postinstall.js",
     "dev-start-ios": "yarn upgrade react-native-authcore && yarn postinstall && react-native run-ios",
+    "dev-start-ios11": "yarn upgrade react-native-authcore && yarn postinstall && react-native run-ios --simulator \"iPhone 8 (11.0)\"",
     "dev-start-ios13": "yarn upgrade react-native-authcore && yarn postinstall && react-native run-ios --simulator \"iPhone 11 (13.0)\"",
     "dev-start-android": "yarn upgrade react-native-authcore && yarn postinstall && react-native run-android"
   },

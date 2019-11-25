@@ -75,11 +75,13 @@ export default class WebAuth {
               }
               resolve(resp)
             })
-            .catch((err) => {
-              reject(err)
-            })
+            .catch((err) => reject(err))
         })
+          // For `show` function, this will happen if user cancel the prompt in iOS platform
+          .catch((err) => reject(err))
       })
+        // For `newTransaction` function, for backup usage as this should not be happened
+        .catch((err) => reject(err))
     })
   }
 }
