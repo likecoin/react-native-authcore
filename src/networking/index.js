@@ -2,7 +2,11 @@ import url from 'url'
 
 export default class Client {
   constructor (options) {
-    const { baseUrl, token } = options
+    const {
+      baseUrl,
+      token,
+      socialLoginPaneStyle = 'bottom'
+    } = options
     if (!baseUrl) {
       throw new Error('Missing Authcore domain')
     }
@@ -12,6 +16,15 @@ export default class Client {
         ? baseUrl
         : `https://${baseUrl}`
     this.domain = parsed.hostname || baseUrl
+    const allowedSocialLoginPaneStyle = [
+      'top',
+      'bottom'
+    ]
+    if (allowedSocialLoginPaneStyle.includes(socialLoginPaneStyle)) {
+      this.socialLoginPaneStyle = socialLoginPaneStyle
+    } else {
+      throw new Error('socialLoginPaneStyle only support top and bottom as input')
+    }
     if (token) {
       this.bearer = `Bearer ${token}`
     }
