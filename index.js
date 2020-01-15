@@ -9,10 +9,11 @@ const { Authcore: A0Authcore } = NativeModules
 
 export default class Authcore {
   constructor (options = {}) {
-    const { baseUrl } = options
+    const { baseUrl, socialLoginPaneStyle } = options
     this.authcore = A0Authcore
     this.auth = new Auth({
-      baseUrl: baseUrl
+      baseUrl: baseUrl,
+      socialLoginPaneStyle: socialLoginPaneStyle
     })
     this.webAuth = new WebAuth(this.auth)
     ProfileScreen.defaultProps = {
