@@ -30,7 +30,8 @@ export default class WebAuth {
             redirectUri: { required: true, toName: 'redirect_uri' },
             responseType: { required: true, toName: 'response_type' },
             state: { required: true },
-            socialLoginPaneStyle: { required: false, toName: 'socialLoginPaneStyle' }
+            socialLoginPaneStyle: { required: false, toName: 'socialLoginPaneStyle' },
+            language: { required: false }
           },
           whitelist: false
         }, {
@@ -39,7 +40,8 @@ export default class WebAuth {
           response_type: 'code',
           redirect_uri: redirectUri,
           state: expectedState,
-          socialLoginPaneStyle: this.client.socialLoginPaneStyle
+          socialLoginPaneStyle: this.client.socialLoginPaneStyle,
+          language: this.client.language
         })
         const authorizeUrl = this.client.url('/widgets/oauth', payloadForAuthorizeUrl)
         this.agent.show(authorizeUrl, false).then((redirectUrl) => {
