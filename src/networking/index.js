@@ -5,7 +5,8 @@ export default class Client {
     const {
       baseUrl,
       token,
-      socialLoginPaneStyle = 'bottom'
+      socialLoginPaneStyle = 'bottom',
+      language = 'en'
     } = options
     if (!baseUrl) {
       throw new Error('Missing Authcore domain')
@@ -20,10 +21,19 @@ export default class Client {
       'top',
       'bottom'
     ]
+    const allowedLanguage = [
+      'en',
+      'zh-hk'
+    ]
     if (allowedSocialLoginPaneStyle.includes(socialLoginPaneStyle)) {
       this.socialLoginPaneStyle = socialLoginPaneStyle
     } else {
       throw new Error('socialLoginPaneStyle only support top and bottom as input')
+    }
+    if (allowedLanguage.includes(language)) {
+      this.language = language
+    } else {
+      console.warn('language is not yet supported. Fallback to English.')
     }
     if (token) {
       this.bearer = `Bearer ${token}`
