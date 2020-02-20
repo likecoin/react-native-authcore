@@ -64,7 +64,24 @@ public class AuthcoreModule extends ReactContextBaseJavaModule implements Lifecy
     public void hide() {}
 
     @ReactMethod
-    public void showUrl(String url, boolean closeOnLoad, Callback callback) {
+    public void showNormalUrl(String url, boolean closeOnLoad) {
+        final Activity activity = getCurrentActivity();
+
+        this.callback = null;
+        if (activity != null) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(activity, Uri.parse(url));
+        } else {
+            final Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse(url));
+            getReactApplicationContext().startActivity(intent);
+        }
+    }
+
+    @ReactMethod
+    public void showAuthUrl(String url, boolean closeOnLoad, Callback callback) {
         final Activity activity = getCurrentActivity();
 
         this.callback = callback;
@@ -80,7 +97,7 @@ public class AuthcoreModule extends ReactContextBaseJavaModule implements Lifecy
         }
     }
 
-        private String getBase64String(byte[] source) {
+    private String getBase64String(byte[] source) {
         return Base64.encodeToString(source, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
     }
 

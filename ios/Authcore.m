@@ -38,7 +38,13 @@ RCT_EXPORT_METHOD(hide) {
     [self terminateWithError:nil dismissing:YES animated:YES];
 }
 
-RCT_EXPORT_METHOD(showUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(showNormalUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad) {
+    self.sessionCallback = nil;
+    self.closeOnLoad = closeOnLoad;
+    [self presentSafariWithURL:[NSURL URLWithString:urlString]];
+}
+
+RCT_EXPORT_METHOD(showAuthUrl:(NSString *)urlString closeOnLoad:(BOOL)closeOnLoad callback:(RCTResponseSenderBlock)callback) {
     // [self presentSafariWithURL:[NSURL URLWithString:urlString]];
     // self.sessionCallback = callback;
     // self.closeOnLoad = closeOnLoad;
