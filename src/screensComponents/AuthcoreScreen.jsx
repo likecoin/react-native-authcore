@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { WebView } from 'react-native-webview'
 import color from 'color'
 
 import Client from '../networking'
@@ -60,8 +60,18 @@ export default class AuthcoreScreen extends Component {
   }
 
   render () {
+    const { accessToken, containerStyle } = this.props
+
+    const injectAccessToken = `
+      this.postMessage({type: 'AuthCore_accessToken', data: '${accessToken}'}, '${this.client.baseUrl}')
+    `
+
     return (
-      <View />
+      <WebView
+        containerStyle={ containerStyle }
+        source={{ uri: this.widgetPath }}
+        injectedJavaScript={accessToken !== undefined && injectAccessToken}
+        />
     )
   }
 }

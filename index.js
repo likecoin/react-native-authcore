@@ -25,11 +25,7 @@ export default class Authcore {
       baseUrl: baseUrl,
       accessToken: undefined
     }
-    SettingsScreen.defaultProps = {
-      baseUrl: baseUrl,
-      accessToken: undefined
-    }
     this.ProfileScreen = ProfileScreen
-    this.SettingsScreen = SettingsScreen
+    this.settings = new SettingsScreen(this.auth)
   }
 }
