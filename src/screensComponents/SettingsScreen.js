@@ -33,7 +33,7 @@ export default class SettingsScreen {
     if (typeof internal !== 'boolean') {
       throw new Error('internal param must be boolean')
     }
-    if (accessToken === undefined) {
+    if (accessToken === undefined || accessToken === '' || accessToken === null) {
       throw new Error('provide access token for settings screen')
     }
 
