@@ -6,6 +6,8 @@ export default class Client {
       baseUrl,
       token,
       socialLoginPaneStyle = 'bottom',
+      socialLoginPaneOption = 'grid',
+      buttonSize = 'large',
       language = 'en'
     } = options
     if (!baseUrl) {
@@ -17,18 +19,36 @@ export default class Client {
         ? baseUrl
         : `https://${baseUrl}`
     this.domain = parsed.hostname || baseUrl
+    const allowedSocialLoginPaneOption = [
+      'list',
+      'grid'
+    ]
     const allowedSocialLoginPaneStyle = [
       'top',
       'bottom'
+    ]
+    const allowedButtonSize = [
+      'normal',
+      'large'
     ]
     const allowedLanguage = [
       'en',
       'zh-hk'
     ]
+    if (allowedSocialLoginPaneOption.includes(socialLoginPaneOption)) {
+      this.socialLoginPaneOption = socialLoginPaneOption
+    } else {
+      throw new Error('socialLoginPaneOption only support list or grid as input')
+    }
     if (allowedSocialLoginPaneStyle.includes(socialLoginPaneStyle)) {
       this.socialLoginPaneStyle = socialLoginPaneStyle
     } else {
-      throw new Error('socialLoginPaneStyle only support top and bottom as input')
+      throw new Error('socialLoginPaneStyle only support top or bottom as input')
+    }
+    if (allowedButtonSize.includes(buttonSize)) {
+      this.buttonSize = buttonSize
+    } else {
+      throw new Error('buttonSize only support normal or large as input')
     }
     if (allowedLanguage.includes(language)) {
       this.language = language
