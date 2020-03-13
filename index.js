@@ -11,6 +11,8 @@ export default class Authcore {
   constructor (options = {}) {
     const {
       baseUrl,
+      company,
+      logo,
       socialLoginPaneOption,
       socialLoginPaneStyle,
       buttonSize,
@@ -19,6 +21,8 @@ export default class Authcore {
     this.authcore = A0Authcore
     this.auth = new Auth({
       baseUrl: baseUrl,
+      company: company,
+      logo: logo,
       socialLoginPaneOption: socialLoginPaneOption,
       socialLoginPaneStyle: socialLoginPaneStyle,
       buttonSize: buttonSize,
