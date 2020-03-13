@@ -5,6 +5,8 @@ export default class Client {
     const {
       baseUrl,
       token,
+      company,
+      logo,
       socialLoginPaneStyle = 'bottom',
       socialLoginPaneOption = 'grid',
       buttonSize = 'large',
@@ -19,6 +21,8 @@ export default class Client {
         ? baseUrl
         : `https://${baseUrl}`
     this.domain = parsed.hostname || baseUrl
+    this.company = company
+    this.logo = logo
     const allowedSocialLoginPaneOption = [
       'list',
       'grid'
