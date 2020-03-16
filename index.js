@@ -10,6 +10,7 @@ const { Authcore: A0Authcore } = NativeModules
 export default class Authcore {
   constructor (options = {}) {
     const {
+      clientId,
       baseUrl,
       company,
       logo,
@@ -20,6 +21,7 @@ export default class Authcore {
     } = options
     this.authcore = A0Authcore
     this.auth = new Auth({
+      clientId: clientId,
       baseUrl: baseUrl,
       company: company,
       logo: logo,

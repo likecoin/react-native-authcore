@@ -30,6 +30,7 @@ export default class WebAuth {
             redirectUri: { required: true, toName: 'redirect_uri' },
             responseType: { required: true, toName: 'response_type' },
             state: { required: true },
+            clientId: { required: false, toName: 'client_id' },
             logo: { required: false },
             company: { required: false },
             socialLoginPaneOption: { required: false, toName: 'socialLoginPaneOption' },
@@ -40,10 +41,10 @@ export default class WebAuth {
           whitelist: false
         }, {
           ...defaults,
-          client_id: 'authcore.io',
           response_type: 'code',
           redirect_uri: redirectUri,
           state: expectedState,
+          clientId: this.client.clientId,
           company: this.client.company,
           logo: this.client.logo,
           socialLoginPaneOption: this.client.socialLoginPaneOption,
