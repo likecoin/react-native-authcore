@@ -4,6 +4,7 @@ export default class Client {
   constructor (options) {
     const {
       baseUrl,
+      clientId,
       token,
       company,
       logo,
@@ -21,6 +22,7 @@ export default class Client {
         ? baseUrl
         : `https://${baseUrl}`
     this.domain = parsed.hostname || baseUrl
+    this.clientId = clientId
     this.company = company
     this.logo = logo
     const allowedSocialLoginPaneOption = [
