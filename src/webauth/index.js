@@ -52,7 +52,8 @@ export default class WebAuth {
           buttonSize: this.client.buttonSize,
           language: this.client.language
         })
-        const authorizeUrl = this.client.url('/widgets/oauth', payloadForAuthorizeUrl)
+        const initialScreen = this.client.initialScreen
+        const authorizeUrl = this.client.url(`/widgets/oauth/${initialScreen}`, payloadForAuthorizeUrl)
         this.agent.show(authorizeUrl, false).then((redirectUrl) => {
           if (!redirectUri) {
             throw new Error('redirectUri cannot be empty. Please provide the value')
