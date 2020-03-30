@@ -12,6 +12,7 @@ export default class Authcore {
     const {
       clientId,
       baseUrl,
+      initialScreen,
       company,
       logo,
       socialLoginPaneOption,
@@ -23,6 +24,7 @@ export default class Authcore {
     this.auth = new Auth({
       clientId: clientId,
       baseUrl: baseUrl,
+      initialScreen: initialScreen,
       company: company,
       logo: logo,
       socialLoginPaneOption: socialLoginPaneOption,

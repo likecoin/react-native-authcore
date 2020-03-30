@@ -4,6 +4,7 @@ export default class Client {
   constructor (options) {
     const {
       baseUrl,
+      initialScreen = 'signin',
       clientId,
       token,
       company,
@@ -25,6 +26,10 @@ export default class Client {
     this.clientId = clientId
     this.company = company
     this.logo = logo
+    const allowedInitialScreen = [
+      'signin',
+      'register'
+    ]
     const allowedSocialLoginPaneOption = [
       'list',
       'grid'
@@ -41,6 +46,11 @@ export default class Client {
       'en',
       'zh-hk'
     ]
+    if (allowedInitialScreen.includes(initialScreen)) {
+      this.initialScreen = initialScreen
+    } else {
+      throw new Error('initialScreen only support signin or register as input')
+    }
     if (allowedSocialLoginPaneOption.includes(socialLoginPaneOption)) {
       this.socialLoginPaneOption = socialLoginPaneOption
     } else {
