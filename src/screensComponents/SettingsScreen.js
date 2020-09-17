@@ -18,7 +18,6 @@ export default class SettingsScreen {
       logo = undefined,
       internal = false
     } = options
-    console.log(options)
 
     let {
       primaryColour = undefined,
@@ -46,7 +45,7 @@ export default class SettingsScreen {
       successColour: successColour,
       dangerColour: dangerColour,
       internal: internal
-    })
+    }, { screen: true })
 
     const settingsPath = settingsPathWithoutToken + `#${accessToken}`
     this.agent.show(settingsPath, false, false)

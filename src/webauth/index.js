@@ -25,6 +25,7 @@ export default class WebAuth {
         // TODO: Not to fix the redirect URI
         const redirectUri = `${bundleIdentifier}://`
         const expectedState = state
+        const containerId = Math.random().toString(36).substring(2)
         const payloadForAuthorizeUrl = apply({
           parameters: {
             redirectUri: { required: true, toName: 'redirect_uri' },
@@ -33,6 +34,10 @@ export default class WebAuth {
             clientId: { required: false, toName: 'client_id' },
             logo: { required: false },
             company: { required: false },
+            primaryColour: { required: false },
+            cid: { required: true },
+            successColour: { required: false },
+            dangerColour: { required: false },
             socialLoginPaneOption: { required: false, toName: 'socialLoginPaneOption' },
             socialLoginPaneStyle: { required: false, toName: 'socialLoginPaneStyle' },
             buttonSize: { required: false, toName: 'buttonSize' },
@@ -41,19 +46,18 @@ export default class WebAuth {
           whitelist: false
         }, {
           ...defaults,
+          cid: containerId,
           response_type: 'code',
           redirect_uri: redirectUri,
           state: expectedState,
           clientId: this.client.clientId,
-          company: this.client.company,
-          logo: this.client.logo,
           socialLoginPaneOption: this.client.socialLoginPaneOption,
           socialLoginPaneStyle: this.client.socialLoginPaneStyle,
           buttonSize: this.client.buttonSize,
           language: this.client.language
-        })
+        }, options)
         const initialScreen = this.client.initialScreen
-        const authorizeUrl = this.client.url(`/widgets/oauth/${initialScreen}`, payloadForAuthorizeUrl)
+        const authorizeUrl = this.client.url(`/widgets/oauth/${initialScreen}`, payloadForAuthorizeUrl, { screen: true })
         this.agent.show(authorizeUrl, false).then((redirectUrl) => {
           if (!redirectUri) {
             throw new Error('redirectUri cannot be empty. Please provide the value')

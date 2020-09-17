@@ -1,4 +1,16 @@
 import url from 'url'
+import color from 'color'
+
+function _buildColourCode (colour) {
+  if (typeof colour === 'string') {
+    try {
+      return `#${color(colour).hex().slice(1)}`
+    } catch (err) {
+      throw new Error('colour parameters have to be correct format')
+    }
+  }
+  return undefined
+}
 
 export default class Client {
   constructor (options) {
@@ -13,6 +25,11 @@ export default class Client {
       socialLoginPaneOption = 'grid',
       buttonSize = 'large',
       language = 'en'
+    } = options
+    const {
+      primaryColour,
+      dangerColour,
+      successColour
     } = options
     if (!baseUrl) {
       throw new Error('Missing Authcore domain')
@@ -74,6 +91,17 @@ export default class Client {
     if (token) {
       this.bearer = `Bearer ${token}`
     }
+    this.primaryColour = _buildColourCode(primaryColour)
+    this.successColour = _buildColourCode(successColour)
+    this.dangerColour = _buildColourCode(dangerColour)
+    this.defaultScreenOptions = {
+      company: this.company,
+      logo: this.logo,
+      primaryColour: this.primaryColour,
+      successColour: this.successColour,
+      dangerColour: this.dangerColour,
+      language: this.language
+    }
   }
 
   get (path, query) {
@@ -88,8 +116,10 @@ export default class Client {
     return this.request('DELETE', this.url(path), body)
   }
 
-  url (path, query) {
+  url (path, q, { screen = false } = {}) {
     let endpoint = url.resolve(this.baseUrl, path)
+    let query = q
+    if (screen) query = { ...this.defaultScreenOptions, ...(q || {}) }
     if ((query && query.length !== 0)) {
       const parsed = url.parse(endpoint)
       // Remove undefined key-value pair
