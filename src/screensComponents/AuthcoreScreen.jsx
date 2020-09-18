@@ -45,7 +45,7 @@ export default class AuthcoreScreen extends Component {
       successColour: successColour,
       dangerColour: dangerColour,
       internal: internal
-    })
+    }, { screen: true })
   }
 
   _buildColourCode (colour) {
