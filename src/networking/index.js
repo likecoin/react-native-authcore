@@ -1,5 +1,7 @@
 import url from 'url'
 
+import { _buildColourCode } from '../utils/colour'
+
 export default class Client {
   constructor (options) {
     const {
@@ -11,9 +13,13 @@ export default class Client {
       logo,
       socialLoginPaneStyle = 'bottom',
       socialLoginPaneOption = 'grid',
+      primaryColour = undefined,
+      dangerColour = undefined,
+      successColour = undefined,
       buttonSize = 'large',
       language = 'en'
     } = options
+
     if (!baseUrl) {
       throw new Error('Missing Authcore domain')
     }
@@ -26,6 +32,9 @@ export default class Client {
     this.clientId = clientId
     this.company = company
     this.logo = logo
+    this.primaryColour = _buildColourCode(primaryColour)
+    this.successColour = _buildColourCode(successColour)
+    this.dangerColour = _buildColourCode(dangerColour)
     const allowedInitialScreen = [
       'signin',
       'register'
