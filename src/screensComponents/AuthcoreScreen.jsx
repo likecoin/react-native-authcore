@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { WebView } from 'react-native-webview'
-import color from 'color'
+
+import { _buildColourCode } from '../utils/colour'
 
 import Client from '../networking'
 
@@ -30,9 +31,9 @@ export default class AuthcoreScreen extends Component {
     })
 
     const containerId = Math.random().toString(36).substring(2)
-    primaryColour = this._buildColourCode(primaryColour)
-    successColour = this._buildColourCode(successColour)
-    dangerColour = this._buildColourCode(dangerColour)
+    primaryColour = _buildColourCode(primaryColour)
+    successColour = _buildColourCode(successColour)
+    dangerColour = _buildColourCode(dangerColour)
     if (typeof internal !== 'boolean') {
       throw new Error('internal param must be boolean')
     }
@@ -46,17 +47,6 @@ export default class AuthcoreScreen extends Component {
       dangerColour: dangerColour,
       internal: internal
     })
-  }
-
-  _buildColourCode (colour) {
-    if (typeof colour === 'string') {
-      try {
-        return encodeURIComponent(`#${color(colour).hex().slice(1)}`)
-      } catch (err) {
-        throw new Error('colour parameters have to be correct format')
-      }
-    }
-    return undefined
   }
 
   render () {
