@@ -16,7 +16,8 @@ export default class SettingsScreen {
       accessToken = undefined,
       company = undefined,
       logo = undefined,
-      internal = false
+      internal = false,
+      language = this.client.language
     } = options
 
     let {
@@ -44,7 +45,8 @@ export default class SettingsScreen {
       primaryColour: primaryColour,
       successColour: successColour,
       dangerColour: dangerColour,
-      internal: internal
+      internal: internal,
+      language
     }, { screen: true })
 
     const settingsPath = settingsPathWithoutToken + `#${accessToken}`
