@@ -55,8 +55,20 @@ export default class WebAuth {
           socialLoginPaneStyle: this.client.socialLoginPaneStyle,
           buttonSize: this.client.buttonSize,
           language: this.client.language
-        }, options)
-        const initialScreen = this.client.initialScreen
+        })
+        const allowedInitialScreenOptions = [
+          'signin',
+          'register'
+        ]
+        let initialScreen = this.client.initialScreen
+        const initialScreenOption = options.initialScreen
+        if (initialScreenOption) {
+          if (allowedInitialScreenOptions.includes(initialScreenOption)) {
+            initialScreen = initialScreenOption
+          } else {
+            throw new Error(`initialScreen only support ${allowedInitialScreenOptions.join(' or ')} as input`)
+          }
+        }
         const authorizeUrl = this.client.url(`/widgets/oauth/${initialScreen}`, payloadForAuthorizeUrl, { screen: true })
         this.agent.show(authorizeUrl, false).then((redirectUrl) => {
           if (!redirectUri) {
