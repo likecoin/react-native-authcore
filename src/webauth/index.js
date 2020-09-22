@@ -54,7 +54,7 @@ export default class WebAuth {
           socialLoginPaneOption: this.client.socialLoginPaneOption,
           socialLoginPaneStyle: this.client.socialLoginPaneStyle,
           buttonSize: this.client.buttonSize,
-          language: this.client.language
+          language: options.language || this.client.language
         })
         const allowedInitialScreenOptions = [
           'signin',
