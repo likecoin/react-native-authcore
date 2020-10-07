@@ -34,3 +34,18 @@ export function apply (rules, values) {
   }
   return mapped
 }
+
+export function allowedLanguageFilter (lang) {
+  const allowedLanguage = [
+    'en',
+    'zh-hk'
+  ]
+  if (allowedLanguage.includes(lang)) {
+    return lang
+  }
+  // Providing `undefined` value fallback to widget default language already.
+  if (lang !== undefined) {
+    console.warn('language is not yet supported. Fallback to widget default language.')
+  }
+  return undefined
+}

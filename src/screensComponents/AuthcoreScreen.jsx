@@ -14,7 +14,8 @@ export default class AuthcoreScreen extends Component {
       company = undefined,
       logo = undefined,
       internal = false,
-      page = 'profile'
+      page = 'profile',
+      language = 'en'
     } = this.props
 
     let {
@@ -45,7 +46,8 @@ export default class AuthcoreScreen extends Component {
       primaryColour: primaryColour,
       successColour: successColour,
       dangerColour: dangerColour,
-      internal: internal
+      internal: internal,
+      language: language
     })
   }
 

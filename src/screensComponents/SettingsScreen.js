@@ -18,12 +18,12 @@ export default class SettingsScreen {
       logo = undefined,
       internal = false
     } = options
-    console.log(options)
 
     let {
       primaryColour = undefined,
       dangerColour = undefined,
-      successColour = undefined
+      successColour = undefined,
+      language = this.client.language
     } = options
     const containerId = Math.random().toString(36).substring(2)
 
@@ -45,7 +45,8 @@ export default class SettingsScreen {
       primaryColour: primaryColour,
       successColour: successColour,
       dangerColour: dangerColour,
-      internal: internal
+      internal: internal,
+      language: language
     })
 
     const settingsPath = settingsPathWithoutToken + `#${accessToken}`
