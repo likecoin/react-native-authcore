@@ -1,6 +1,7 @@
 import url from 'url'
 
 import { _buildColourCode } from '../utils/colour'
+import { allowedLanguageFilter } from '../utils/whitelist'
 
 export default class Client {
   constructor (options) {
@@ -17,7 +18,7 @@ export default class Client {
       dangerColour = undefined,
       successColour = undefined,
       buttonSize = 'large',
-      language = 'en'
+      language = undefined
     } = options
 
     if (!baseUrl) {
@@ -51,10 +52,6 @@ export default class Client {
       'normal',
       'large'
     ]
-    const allowedLanguage = [
-      'en',
-      'zh-hk'
-    ]
     if (allowedInitialScreen.includes(initialScreen)) {
       this.initialScreen = initialScreen
     } else {
@@ -75,11 +72,7 @@ export default class Client {
     } else {
       throw new Error('buttonSize only support normal or large as input')
     }
-    if (allowedLanguage.includes(language)) {
-      this.language = language
-    } else {
-      console.warn('language is not yet supported. Fallback to English.')
-    }
+    this.language = allowedLanguageFilter(language)
     if (token) {
       this.bearer = `Bearer ${token}`
     }
@@ -101,6 +94,12 @@ export default class Client {
     let endpoint = url.resolve(this.baseUrl, path)
     if ((query && query.length !== 0)) {
       const parsed = url.parse(endpoint)
+      // query will not be empty in current case, therefore setting language inside
+      if (query.language) {
+        query.language = allowedLanguageFilter(query.language)
+      } else if (this.language) {
+        Object.assign(query, { language: this.language })
+      }
       // Remove undefined key-value pair
       const keysArr = Object.keys(query)
       for (let i = 0; i < keysArr.length; i++) {

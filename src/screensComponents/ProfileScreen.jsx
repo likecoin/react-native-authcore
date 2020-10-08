@@ -14,6 +14,7 @@ export default class ProfileScreen extends Component {
         successColour={ this.props.successColour }
         dangerColour={ this.props.dangerColour }
         internal={ this.props.internal }
+        language={ this.props.language }
       />
     )
   }
