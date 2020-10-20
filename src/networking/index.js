@@ -1,16 +1,7 @@
 import url from 'url'
-import color from 'color'
 
-function _buildColourCode (colour) {
-  if (typeof colour === 'string') {
-    try {
-      return `#${color(colour).hex().slice(1)}`
-    } catch (err) {
-      throw new Error('colour parameters have to be correct format')
-    }
-  }
-  return undefined
-}
+import { _buildColourCode } from '../utils/colour'
+import { allowedLanguageFilter, allowedInitialScreenFilter } from '../utils/whitelist'
 
 export default class Client {
   constructor (options) {
@@ -23,13 +14,11 @@ export default class Client {
       logo,
       socialLoginPaneStyle = 'bottom',
       socialLoginPaneOption = 'grid',
+      primaryColour = undefined,
+      dangerColour = undefined,
+      successColour = undefined,
       buttonSize = 'large',
-      language = 'en'
-    } = options
-    const {
-      primaryColour,
-      dangerColour,
-      successColour
+      language = undefined
     } = options
     if (!baseUrl) {
       throw new Error('Missing Authcore domain')
@@ -43,10 +32,9 @@ export default class Client {
     this.clientId = clientId
     this.company = company
     this.logo = logo
-    const allowedInitialScreen = [
-      'signin',
-      'register'
-    ]
+    this.primaryColour = _buildColourCode(primaryColour)
+    this.successColour = _buildColourCode(successColour)
+    this.dangerColour = _buildColourCode(dangerColour)
     const allowedSocialLoginPaneOption = [
       'list',
       'grid'
@@ -59,15 +47,7 @@ export default class Client {
       'normal',
       'large'
     ]
-    const allowedLanguage = [
-      'en',
-      'zh-hk'
-    ]
-    if (allowedInitialScreen.includes(initialScreen)) {
-      this.initialScreen = initialScreen
-    } else {
-      throw new Error('initialScreen only support signin or register as input')
-    }
+    this.initialScreen = allowedInitialScreenFilter(initialScreen)
     if (allowedSocialLoginPaneOption.includes(socialLoginPaneOption)) {
       this.socialLoginPaneOption = socialLoginPaneOption
     } else {
@@ -83,24 +63,9 @@ export default class Client {
     } else {
       throw new Error('buttonSize only support normal or large as input')
     }
-    if (allowedLanguage.includes(language)) {
-      this.language = language
-    } else {
-      console.warn('language is not yet supported. Fallback to English.')
-    }
+    this.language = allowedLanguageFilter(language)
     if (token) {
       this.bearer = `Bearer ${token}`
-    }
-    this.primaryColour = _buildColourCode(primaryColour)
-    this.successColour = _buildColourCode(successColour)
-    this.dangerColour = _buildColourCode(dangerColour)
-    this.defaultScreenOptions = {
-      company: this.company,
-      logo: this.logo,
-      primaryColour: this.primaryColour,
-      successColour: this.successColour,
-      dangerColour: this.dangerColour,
-      language: this.language
     }
   }
 
@@ -116,12 +81,16 @@ export default class Client {
     return this.request('DELETE', this.url(path), body)
   }
 
-  url (path, q, { screen = false } = {}) {
+  url (path, query) {
     let endpoint = url.resolve(this.baseUrl, path)
-    let query = q
-    if (screen) query = { ...this.defaultScreenOptions, ...(q || {}) }
     if ((query && query.length !== 0)) {
       const parsed = url.parse(endpoint)
+      // query will not be empty in current case, therefore setting language inside
+      if (query.language) {
+        query.language = allowedLanguageFilter(query.language)
+      } else if (this.language) {
+        Object.assign(query, { language: this.language })
+      }
       // Remove undefined key-value pair
       const keysArr = Object.keys(query)
       for (let i = 0; i < keysArr.length; i++) {
