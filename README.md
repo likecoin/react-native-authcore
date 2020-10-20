@@ -90,6 +90,7 @@ Props for modifying the layout of the widget to be shown.
 * `primaryColour`: The primary colour of the widget. Primary colour mainly consists of general button colour, link colour and border colour when the field box is in focus. Allow colour code, rgb colour value or named colour.
 * `successColour`: The success colour of the widget. Success colour mainly consists of verified message and icon. Allow colour code, rgb colour value or named colour.
 * `dangerColour`: The danger colour of the widget. Danger colour mainly consists of error message, button colour for destructive action (e.g. Remove contact) and invalid field box border. Allow colour code, rgb colour value or named colour.
+* `language`: Language of the widget. It has filter which ensure the language is provided in the widget.
 
 ## Notes in current implementation
 

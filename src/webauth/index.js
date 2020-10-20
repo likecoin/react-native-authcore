@@ -2,7 +2,7 @@ import { NativeModules } from 'react-native'
 import url from 'url'
 
 import Agent from './agent'
-import { apply } from '../utils/whitelist'
+import { apply, allowedInitialScreenFilter } from '../utils/whitelist'
 
 const { Authcore } = NativeModules
 
@@ -25,7 +25,6 @@ export default class WebAuth {
         // TODO: Not to fix the redirect URI
         const redirectUri = `${bundleIdentifier}://`
         const expectedState = state
-        const containerId = Math.random().toString(36).substring(2)
         const payloadForAuthorizeUrl = apply({
           parameters: {
             redirectUri: { required: true, toName: 'redirect_uri' },
@@ -35,7 +34,6 @@ export default class WebAuth {
             logo: { required: false },
             company: { required: false },
             primaryColour: { required: false },
-            cid: { required: true },
             successColour: { required: false },
             dangerColour: { required: false },
             socialLoginPaneOption: { required: false, toName: 'socialLoginPaneOption' },
@@ -46,30 +44,25 @@ export default class WebAuth {
           whitelist: false
         }, {
           ...defaults,
-          cid: containerId,
           response_type: 'code',
           redirect_uri: redirectUri,
           state: expectedState,
           clientId: this.client.clientId,
+          company: this.client.company,
+          logo: this.client.logo,
+          primaryColour: this.client.primaryColour,
+          successColour: this.client.successColour,
+          dangerColour: this.client.dangerColour,
           socialLoginPaneOption: this.client.socialLoginPaneOption,
           socialLoginPaneStyle: this.client.socialLoginPaneStyle,
           buttonSize: this.client.buttonSize,
           language: options.language || this.client.language
         })
-        const allowedInitialScreenOptions = [
-          'signin',
-          'register'
-        ]
         let initialScreen = this.client.initialScreen
-        const initialScreenOption = options.initialScreen
-        if (initialScreenOption) {
-          if (allowedInitialScreenOptions.includes(initialScreenOption)) {
-            initialScreen = initialScreenOption
-          } else {
-            throw new Error(`initialScreen only support ${allowedInitialScreenOptions.join(' or ')} as input`)
-          }
+        if (options.initialScreen) {
+          initialScreen = allowedInitialScreenFilter(options.initialScreen)
         }
-        const authorizeUrl = this.client.url(`/widgets/oauth/${initialScreen}`, payloadForAuthorizeUrl, { screen: true })
+        const authorizeUrl = this.client.url(`/widgets/oauth/${initialScreen}`, payloadForAuthorizeUrl)
         this.agent.show(authorizeUrl, false).then((redirectUrl) => {
           if (!redirectUri) {
             throw new Error('redirectUri cannot be empty. Please provide the value')

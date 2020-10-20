@@ -16,14 +16,14 @@ export default class SettingsScreen {
       accessToken = undefined,
       company = undefined,
       logo = undefined,
-      internal = false,
-      language = this.client.language
+      internal = false
     } = options
 
     let {
       primaryColour = undefined,
       dangerColour = undefined,
-      successColour = undefined
+      successColour = undefined,
+      language = this.client.language
     } = options
     const containerId = Math.random().toString(36).substring(2)
 
@@ -46,8 +46,8 @@ export default class SettingsScreen {
       successColour: successColour,
       dangerColour: dangerColour,
       internal: internal,
-      language
-    }, { screen: true })
+      language: language
+    })
 
     const settingsPath = settingsPathWithoutToken + `#${accessToken}`
     this.agent.show(settingsPath, false, false)
