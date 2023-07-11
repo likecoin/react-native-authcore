@@ -3,6 +3,10 @@ import { NativeModules, Linking } from 'react-native'
 const { Authcore } = NativeModules
 
 export default class Agent {
+  constructor () {
+    this.urlEventListener = null
+  }
+
   show (url, closeOnLoad = false, triggerError = true) {
     if (!Authcore) {
       return Promise.reject(
@@ -15,15 +19,21 @@ export default class Agent {
     return new Promise((resolve, reject) => {
       const urlHandler = event => {
         Authcore.hide()
-        Linking.removeEventListener('url', urlHandler)
+        if (this.urlEventListener) {
+          this.urlEventListener.remove()
+          this.urlEventListener = null
+        }
         resolve(event.url)
       }
-      Linking.addEventListener('url', urlHandler)
+      this.urlEventListener = Linking.addEventListener('url', urlHandler)
       if (!triggerError) {
         Authcore.showNormalUrl(url, closeOnLoad)
       } else {
         Authcore.showAuthUrl(url, closeOnLoad, (error, redirectURL) => {
-          Linking.removeEventListener('url', urlHandler)
+          if (this.urlEventListener) {
+            this.urlEventListener.remove()
+            this.urlEventListener = null
+          }
           if (error) {
             reject(error)
           } else if (redirectURL) {
