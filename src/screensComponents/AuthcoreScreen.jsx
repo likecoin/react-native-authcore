@@ -55,7 +55,11 @@ export default class AuthcoreScreen extends Component {
     const { accessToken, containerStyle } = this.props
 
     const injectAccessToken = `
-      this.postMessage({type: 'AuthCore_accessToken', data: '${accessToken}'}, '${this.client.baseUrl}')
+      if (document.readyState === 'complete') {
+        window.postMessage({ type: 'AuthCore_accessToken', data: '${accessToken}'}, '${this.client.baseUrl}')
+      } else {
+        window.addEventListener('load', () => { window.postMessage({ type: 'AuthCore_accessToken', data: '${accessToken}'}, '${this.client.baseUrl}') })
+      }
     `
 
     return (
@@ -63,6 +67,7 @@ export default class AuthcoreScreen extends Component {
         containerStyle={ containerStyle }
         source={{ uri: this.widgetPath }}
         injectedJavaScript={accessToken !== undefined && injectAccessToken}
+        onMessage={() => {}}
         />
     )
   }
